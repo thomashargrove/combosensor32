@@ -39,7 +39,7 @@
 
 ```sh
 # Configure pins
-ADD
+Backlog template {"NAME":"Combo32","GPIO":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1696,1664,0,640,608,32,0,1632,1600,1,0,0,0,0,1,1,1,1,1,0,0,1],"FLAG":0,"BASE":1}; Module 0
 # Screen Setup
 Backlog DisplayModel 2; DisplayMode 0; DisplayDimmer 100
 # Configure button as input and not power
