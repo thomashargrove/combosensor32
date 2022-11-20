@@ -50,10 +50,10 @@ Rule1 1
 Sensor18 300
 # Timezone
 Backlog0 Timezone 99; TimeStd 0,1,11,1,2,-480; TimeDst 0,2,3,1,2,-420
+# Names
+Backlog Hostname OfficeAQI; DeviceName OfficeAQI; FriendlyName OfficeAQI; 
 # MQTT Setup
-Backlog Hostname OfficeAQI; DeviceName OfficeAQI; FriendlyName OfficeAQI
-Tipic HargroveBellevue_Office_AQI
-TelePeriod 60
+Backlog Topic HargroveBellevue_Office_AQI; TelePeriod 60
 ```
 
 
