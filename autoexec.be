@@ -2,7 +2,7 @@
 # Or copy-paste into berry editor
 # When rerunning, uncomment this line
 
-# tasmota.remove_driver(d1)
+# tasmota.remove_driver(comboDriver)
 
 # Notes on text output:
 #         Height  Width  Cols
@@ -106,7 +106,6 @@ class ComboDisplay
       self.temperature = int(self.jsondata["PMS5003"]["Temperature"])
       self.humidity = int(self.jsondata["PMS5003"]["Humidity"])
     end
-
     if (self.mode == 0)
       self.display_big("CO2", self.co2)
       self.display_small1("AQI", self.aqi)
@@ -116,8 +115,8 @@ class ComboDisplay
       self.display_small1("CO2", self.co2)
       self.display_small2("%RH", self.humidity)
     end
-
   end
+
   def next_mode()
     log("Button Pressed")
     self.mode += 1
@@ -125,11 +124,11 @@ class ComboDisplay
       self.mode = 0
     end
   end
+  
   def before_del()
     tasmota.remove_driver(self)
   end
 end
 
-d1 = ComboDisplay()
-tasmota.add_driver(d1)
-
+comboDriver = ComboDisplay()
+tasmota.add_driver(comboDriver)
