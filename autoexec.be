@@ -1,16 +1,14 @@
 # Re-run this with Br load("autoexec.be")
 # Or copy-paste into berry editor
 # When rerunning, uncomment this line
-
+#
 # tasmota.remove_driver(comboDriver)
 
 # Notes on text output:
-#         Height  Width  Cols
-#  f0s1:  8       6      21
-#  f0s2:  16      12     10
-#
-# small: 4+2+2 = 8x6 = 48
-# big: 4+2+2 = 8x12 = 96
+#         Height  Width  Cols Rows
+#  f0s1:  8       6      21   8   
+#  f0s2:  16      12     10   4
+
 
 import json
 import string
