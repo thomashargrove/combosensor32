@@ -80,10 +80,14 @@ class ComboDisplay
 
   def every_second()
     self.jsondata = json.load(tasmota.read_sensors(true))
-    self.co2 = self.jsondata["S8"]["CarbonDioxide"]
-    self.pm25 = self.jsondata["PMS5003"]["CF2.5"]
-    self.temperature = int(self.jsondata["PMS5003"]["Temperature"])
-    self.humidity = int(self.jsondata["PMS5003"]["Humidity"])
+    if (self.jsondata.contains("S8"))
+      self.co2 = self.jsondata["S8"]["CarbonDioxide"]
+    end
+    if (self.jsondata.contains("PMS5003"))
+      self.pm25 = self.jsondata["PMS5003"]["CF2.5"]
+      self.temperature = int(self.jsondata["PMS5003"]["Temperature"])
+      self.humidity = int(self.jsondata["PMS5003"]["Humidity"])
+    end
 
     if (self.mode == 0)
       self.display_big("CO2", self.co2)
