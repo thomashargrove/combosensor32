@@ -15,16 +15,35 @@
 import json
 import string
 
+def map_real(x, x1, x2, y1, y2)
+  return ((x - x1) * (y2 - y1) / (x2 - x1) + y1);
+end
+
+def us_aqi(pm25)
+  if (pm25 <= 12)
+    return int(map_real(pm25, 0, 12, 0, 50))
+  elif (pm25 <= 35.4)
+    return int(map_real(pm25, 12.1, 35.4, 51, 100))
+  elif (pm25 <= 55.4)
+    return int(map_real(pm25, 35.5, 55.4, 101, 150))
+  elif (pm25 <= 150.4)
+    return int(map_real(pm25, 55.5, 150.4, 151, 200))
+  elif (pm25 <= 250.4)
+    return int(map_real(pm25, 150.5, 250.4, 201, 300))
+  elif (pm25 <= 500.4)
+    return int(map_real(pm25, 250.5, 500.4, 301, 500))
+  else
+    return 500
+  end
+end
+
 class ComboDisplay
-  var prev_temperature, prev_humidity
-  var co2, pm25, temperature, humidity
+  var co2, aqi, temperature, humidity
   var jsondata
   var big_prev_label, big_prev_num, small1_prev_label, small1_prev_num, small2_prev_label, small2_prev_num
-  var mode, last_mode
+  # Mode 0 shows CO2 big; Mode1 shows AQI big
+  var mode
   def init()
-    self.prev_temperature = 0
-    self.prev_humidity = 0
-
     self.big_prev_label = ""
     self.big_prev_num = 0
     self.small1_prev_label = ""
@@ -33,7 +52,6 @@ class ComboDisplay
     self.small2_prev_num = 0
 
     self.mode = 0
-    self.last_mode = 0
   end
 
   def display_big(label, num)
@@ -84,17 +102,17 @@ class ComboDisplay
       self.co2 = self.jsondata["S8"]["CarbonDioxide"]
     end
     if (self.jsondata.contains("PMS5003"))
-      self.pm25 = self.jsondata["PMS5003"]["CF2.5"]
+      self.aqi = us_aqi(self.jsondata["PMS5003"]["CF2.5"])
       self.temperature = int(self.jsondata["PMS5003"]["Temperature"])
       self.humidity = int(self.jsondata["PMS5003"]["Humidity"])
     end
 
     if (self.mode == 0)
       self.display_big("CO2", self.co2)
-      self.display_small1("AQI", self.pm25)
+      self.display_small1("AQI", self.aqi)
       self.display_small2("%RH", self.humidity)
     elif (self.mode == 1)
-      self.display_big("AQI", self.pm25)
+      self.display_big("AQI", self.aqi)
       self.display_small1("CO2", self.co2)
       self.display_small2("%RH", self.humidity)
     end
