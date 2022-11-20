@@ -2,10 +2,10 @@
 
 | Device | Color | Esp32 | Tasmota |
 | --- | --- | --- | --- |
-| Screen I2C SDA | yellow | GPIO 21 | I2C SDA |
-| Screen I2C SCL | green | GPIO 22 | I2C SCL |
 | PMS pin 5 TX | Black | GPIO 18 | PMS5003 Rx |
 | PMS pin 4 RX | Red | GPIO 19 | PMS5003 Tx |
+| Screen I2C SDA | yellow | GPIO 21 | I2C SDA |
+| Screen I2C SCL | green | GPIO 22 | I2C SCL |
 | Button | Green | GPIO 23 | Button 1 |
 | S8 TX | Green | GPIO 25 | SAir Rx |
 | S8 RX | Blue | GPIO 26 | SAir Tx |
