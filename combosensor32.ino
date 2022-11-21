@@ -18,10 +18,12 @@ Adafruit_SSD1306 display(128, 64, &Wire, -1);
 //   /* {offset, width, height, advance cursor, x offset, y offset} */
 // Some mono-space fonts:
 //   https://draculatheme.com/blog/best-free-fonts-for-programming
-//   https://www.fontsquirrel.com/fonts/Liberation-Mono
 #include <Fonts/FreeMono12pt7b.h>
+//   https://www.fontsquirrel.com/fonts/Liberation-Mono
 #include "LiberationMono-Regular9pt7b.h"
 #include "LiberationMono-Bold9pt7b.h"
+// https://www.dafont.com/seven-segment.font
+#include "Seven_Segment34pt7b.h"
 
 // PMS5003 Sensor
 #include "pms5003t.h"
@@ -137,6 +139,9 @@ void mode0() {
 
 void mode1() {
   display.clearDisplay();
+  display.setFont(&Seven_Segment34pt7b);
+  display.setCursor(0, 16+47);
+  display.print("0123");
   display.display();
 }
 
