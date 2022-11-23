@@ -1,7 +1,7 @@
 /*
  Required Libraries
    Adafruit_SSD1306 - https://github.com/adafruit/Adafruit_SSD1306
-
+   S8 - https://github.com/jcomas/S8_UART
 */
 
 // Screen
