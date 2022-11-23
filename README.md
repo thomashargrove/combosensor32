@@ -13,6 +13,37 @@
 | Screen Power | Red | 3.3v | |
 | S8/PMS/Screen/Button ground | Black | GND | |
 
+# Wiring / Assembly
+
+Screen
+
+1. Test screen first.  Use ssd1306_128x64_i2c.ico and change address to 0x3C
+2. Cut black, red, green, yellow to 3in
+3. SDA - Yellow, SCL - Green, Red - 3.3v, Black - Gnd
+
+PMS
+
+1. Cut 4.5in from tip of white connector
+2. Keep 2 inside, skip 1, keep 2, skip 3
+3. Power and Gnd are reverse colors
+
+Button
+
+1. test fit first
+2. snip leads one side
+3. 2.25in black jumper x2
+4. 2.5in green to big button
+
+S8
+
+1. 3.5in of red, black, green, blue, yellow
+2. From back.  Upper left red, down 1 black.  Upper right skip, down 1 blue, down 1 green, skip, yellow bottom
+
+ESP32
+
+1. 2in red, black
+2. 
+
 # Tasmota Build Flags
 ```c++
 #undef  TEMP_CONVERSION
@@ -44,7 +75,7 @@ Backlog template {"NAME":"Combo32","GPIO":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1696,1664
 Backlog DisplayModel 2; DisplayMode 0; DisplayDimmer 100
 # Configure button as input and not power
 Backlog SetOption73 1; ButtonTopic 0
-Rule1 on Button1#state do Br d1.next_mode() endon
+Rule1 on Button1#state do Br comboDriver.next_mode() endon
 Rule1 1
 # PMS Set it up to sleep for 5 min between readings extend life
 Sensor18 300

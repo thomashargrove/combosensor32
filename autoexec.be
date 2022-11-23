@@ -2,11 +2,11 @@
 # Or copy-paste into berry editor
 # When rerunning, uncomment this line
 #
-# tasmota.remove_driver(comboDriver)
+#tasmota.remove_driver(comboDriver)
 
 # Notes on text output:
 #         Height  Width  Cols Rows
-#  f0s1:  8       6      21   8   
+#  f0s1:  8       6      21   8
 #  f0s2:  16      12     10   4
 
 
@@ -38,63 +38,79 @@ end
 class ComboDisplay
   var co2, aqi, temperature, humidity
   var jsondata
-  var big_prev_label, big_prev_num, small1_prev_label, small1_prev_num, small2_prev_label, small2_prev_num
+  var big_prev_value, small1_prev_value, small2_prev_value
+  var last_row_values
+  var refresh
   # Mode 0 shows CO2 big; Mode1 shows AQI big
   var mode
   def init()
-    self.big_prev_label = ""
-    self.big_prev_num = 0
-    self.small1_prev_label = ""
-    self.small1_prev_num = 0
-    self.small2_prev_label = ""
-    self.small2_prev_num = 0
-
+    self.co2 = 0
+    self.aqi = 0
+    self.temperature = 0
+    self.humidity = 0
+    self.big_prev_value = -1
+    self.small1_prev_value = -1
+    self.small2_prev_value = -1
+    self.last_row_values = [-1,-1,-1,-1]
+    self.refresh = true
     self.mode = 0
   end
 
-  def display_big(label, num)
+  def display_big(label, value, refresh)
+    if (refresh || (self.big_prev_value >= 1000 && value < 1000))
+      tasmota.cmd(string.format("DisplayText [f0s1x0y56]%s", label))
+    end
+
     # When we drop below 1000 we need to clear the first character for the label
-    if ((num<1000) && (self.big_prev_num>=1000))
+    if ((value<1000) && (self.big_prev_value>=1000))
       tasmota.cmd("DisplayText [f4s2x0y16p-4]0")
       self.big_prev_label = ""
     end
-    if (num != self.big_prev_num)
-      if (num >= 1000)
-        tasmota.cmd(string.format("DisplayText [f4s2x0y16p-4]%i", num))
+    if (value != self.big_prev_value)
+      if (value >= 1000)
+        tasmota.cmd(string.format("DisplayText [f4s2x0y16p-4]%i", value))
       else
-        tasmota.cmd(string.format("DisplayText [f4s2x32y16p-3]%i", num))
+        tasmota.cmd(string.format("DisplayText [f4s2x32y16p-3]%i", value))
       end
-      self.big_prev_num = num
-    end
-    if (label != self.big_prev_label && num < 1000)
-      tasmota.cmd(string.format("DisplayText [f0s1x0y56]%s", label))
-      self.big_prev_label = label
+      self.big_prev_value = value
     end
   end
 
-  def display_small1(label, num)
-    if (label != self.small1_prev_label)
+  def display_small1(label, value, refresh)
+    if (refresh)
       tasmota.cmd(string.format("DisplayText [f0s1x0y8p3]%s", label))
-      self.small1_prev_label = label
     end
-    if (num != self.small1_prev_num)
-      tasmota.cmd(string.format("DisplayText [f0s2x18y0p-4]%i", num))
-      self.small1_prev_num = num
+    if (value != self.small1_prev_value)
+      tasmota.cmd(string.format("DisplayText [f0s2x18y0p-4]%i", value))
+      self.small1_prev_value = value
     end
   end
 
-  def display_small2(label, num)
-    if (label != self.small2_prev_label)
+  def display_small2(label, value, refresh)
+    if (refresh)
       tasmota.cmd(string.format("DisplayText [f0s1x72y8p3]%s", label))
-      self.small2_prev_label = label
     end
-    if (num != self.small2_prev_num)
-      tasmota.cmd(string.format("DisplayText [f0s2x90y0p-3]%i", num))
-      self.small2_prev_num = num
+    if (value != self.small2_prev_value)
+      tasmota.cmd(string.format("DisplayText [f0s2x90y0p-3]%i", value))
+      self.small2_prev_value = value
+    end
+  end
+
+  def display_row(position, label, value, refresh)
+    if (refresh)
+      tasmota.cmd(string.format("DisplayText [f0s2x0y%i]%s", position*16, label))
+    end
+    if (value != self.last_row_values[position])
+      tasmota.cmd(string.format("DisplayText [f0s2x80y%ip-4]%i", position*16, value))
+      self.last_row_values[position] = value
     end
   end
 
   def every_second()
+    if (self.refresh)
+      tasmota.cmd("DisplayText [z]")
+    end
+
     self.jsondata = json.load(tasmota.read_sensors(true))
     if (self.jsondata.contains("S8"))
       self.co2 = self.jsondata["S8"]["CarbonDioxide"]
@@ -105,22 +121,35 @@ class ComboDisplay
       self.humidity = int(self.jsondata["PMS5003"]["Humidity"])
     end
     if (self.mode == 0)
-      self.display_big("CO2", self.co2)
-      self.display_small1("AQI", self.aqi)
-      self.display_small2("%RH", self.humidity)
+      self.display_big("CO2", self.co2, self.refresh)
+      self.display_small1("AQI", self.aqi, self.refresh)
+      self.display_small2("%RH", self.humidity, self.refresh)
     elif (self.mode == 1)
-      self.display_big("AQI", self.aqi)
-      self.display_small1("CO2", self.co2)
-      self.display_small2("%RH", self.humidity)
+      self.display_big("AQI", self.aqi, self.refresh)
+      self.display_small1("CO2", self.co2, self.refresh)
+      self.display_small2("%RH", self.humidity, self.refresh)
+    elif (self.mode == 2)
+      self.display_row(0, "CO2", self.co2, self.refresh)
+      self.display_row(1, "Aqi", self.aqi, self.refresh)
+      self.display_row(2, "Temp", self.temperature, self.refresh)
+      self.display_row(3, "%RH", self.humidity, self.refresh)
     end
+
+    self.refresh = false
   end
 
   def next_mode()
     log("Button Pressed")
     self.mode += 1
-    if (self.mode >= 2)
+    if (self.mode >= 3)
       self.mode = 0
     end
+
+    self.big_prev_value = -1
+    self.small1_prev_value = -1
+    self.small2_prev_value = -1
+    self.last_row_values = [-1,-1,-1,-1]
+    self.refresh = true
   end
   
   def before_del()
