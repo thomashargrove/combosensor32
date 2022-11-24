@@ -1056,7 +1056,7 @@ const uint8_t Seven_Segment34pt7bBitmaps[] PROGMEM = {
   0xFF, 0xFF, 0xFF };
 
 const GFXglyph Seven_Segment34pt7bGlyphs[] PROGMEM = {
-  {     0,   1,   1,  20,    0,    0 },   // 0x20 ' '
+  {     0,   1,   1,  32,    0,    0 },   // 0x20 ' '
   {     1,   4,  47,  12,    4,  -46 },   // 0x21 '!'
   {    25,  11,   6,  19,    4,  -45 },   // 0x22 '"'
   {    34,  29,  31,  37,    4,  -30 },   // 0x23 '#'

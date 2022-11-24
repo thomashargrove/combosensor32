@@ -102,7 +102,67 @@ int co2 = 0;
 int temperature = 0;
 int humidity = 0;
 
-void mode0() {
+void mode0(){
+  display.clearDisplay();
+  display.setFont();
+  display.setTextSize(1);
+  display.setCursor(0,0);
+  display.print("AQI ");
+  
+  display.setTextSize(2);  
+  display.printf("%3d", aqi);
+
+  display.setTextSize(1);
+  display.print(" %H ");
+  
+  display.setTextSize(2);
+  display.printf("%2d", humidity);
+  
+  if (co2 < 1000){
+    display.setTextSize(1);
+    display.setCursor(0,64-8);
+    display.print("CO2");
+  }
+    
+  display.setTextSize(1);
+  display.setFont(&Seven_Segment34pt7b);
+  display.setCursor(0, 16+47);
+  display.printf("%4d", co2);
+
+  display.display();
+}
+
+void mode1(){
+  display.clearDisplay();
+  display.setFont();
+  display.setTextSize(1);
+  display.setCursor(0,0);
+  display.print("CO2 ");
+  
+  display.setTextSize(2);  
+  display.printf("%4d", co2);
+
+  display.setTextSize(1);
+  display.print(" %H ");
+  
+  display.setTextSize(2);
+  display.printf("%2d", humidity);
+  
+  
+  display.setTextSize(1);
+  display.setCursor(0,64-8);
+  display.print("AQI");
+
+    
+  display.setTextSize(1);
+  display.setFont(&Seven_Segment34pt7b);
+  display.setCursor(0, 16+47);
+  display.printf("%3d", aqi);
+
+  display.display();
+}
+
+void mode2() {
   display.clearDisplay();
   display.setTextSize(1);
   
@@ -137,21 +197,13 @@ void mode0() {
   display.display();
 }
 
-void mode1() {
-  display.clearDisplay();
-  display.setFont(&Seven_Segment34pt7b);
-  display.setCursor(0, 16+47);
-  display.print("0123");
-  display.display();
-}
-
 volatile int mode = 0;
 volatile int last_button = 0;
 void on_button_press() {
   int now = millis();
   if ((now - last_button) > 300) {
     mode += 1;
-    if (mode == 2) {
+    if (mode == 3) {
       mode = 0;
     }
     last_button = now;
@@ -181,7 +233,10 @@ void loop() {
     mode0();
   } else if (mode == 1) {
     mode1();
+  } else if(mode == 2){
+    mode2();
   }
+  
 
   delay(100);
 }
