@@ -13,27 +13,27 @@
 import json
 import string
 
-def map_real(x, x1, x2, y1, y2)
-  return ((x - x1) * (y2 - y1) / (x2 - x1) + y1);
-end
-
-def us_aqi(pm25)
-  if (pm25 <= 12)
-    return int(map_real(pm25, 0, 12, 0, 50))
-  elif (pm25 <= 35.4)
-    return int(map_real(pm25, 12.1, 35.4, 51, 100))
-  elif (pm25 <= 55.4)
-    return int(map_real(pm25, 35.5, 55.4, 101, 150))
-  elif (pm25 <= 150.4)
-    return int(map_real(pm25, 55.5, 150.4, 151, 200))
-  elif (pm25 <= 250.4)
-    return int(map_real(pm25, 150.5, 250.4, 201, 300))
-  elif (pm25 <= 500.4)
-    return int(map_real(pm25, 250.5, 500.4, 301, 500))
-  else
-    return 500
-  end
-end
+#def map_real(x, x1, x2, y1, y2)
+#  return ((x - x1) * (y2 - y1) / (x2 - x1) + y1);
+#end
+#
+#def us_aqi(pm25)
+#  if (pm25 <= 12)
+#    return int(map_real(pm25, 0, 12, 0, 50))
+#  elif (pm25 <= 35.4)
+#    return int(map_real(pm25, 12.1, 35.4, 51, 100))
+#  elif (pm25 <= 55.4)
+#    return int(map_real(pm25, 35.5, 55.4, 101, 150))
+#  elif (pm25 <= 150.4)
+#    return int(map_real(pm25, 55.5, 150.4, 151, 200))
+#  elif (pm25 <= 250.4)
+#    return int(map_real(pm25, 150.5, 250.4, 201, 300))
+#  elif (pm25 <= 500.4)
+#    return int(map_real(pm25, 250.5, 500.4, 301, 500))
+#  else
+#    return 500
+#  end
+#end
 
 class ComboDisplay
   var co2, aqi, temperature, humidity
@@ -116,7 +116,7 @@ class ComboDisplay
       self.co2 = self.jsondata["S8"]["CarbonDioxide"]
     end
     if (self.jsondata.contains("PMS5003"))
-      self.aqi = us_aqi(self.jsondata["PMS5003"]["CF2.5"])
+      self.aqi = self.jsondata["PMS5003"]["CF2.5"]
       self.temperature = int(self.jsondata["PMS5003"]["Temperature"])
       self.humidity = int(self.jsondata["PMS5003"]["Humidity"])
     end
