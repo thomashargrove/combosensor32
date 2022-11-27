@@ -109,7 +109,6 @@ class ComboDisplay
   def every_second()
     if (self.refresh)
       tasmota.cmd("DisplayText [z]")
-      self.refresh = false
     end
 
     self.jsondata = json.load(tasmota.read_sensors(true))
@@ -139,6 +138,7 @@ class ComboDisplay
       self.display_row(2, "Temp", self.temperature, self.refresh)
       self.display_row(3, "%RH", self.humidity, self.refresh)
     end
+    self.refresh = false
   end
 
   def next_mode()
