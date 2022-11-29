@@ -64,7 +64,7 @@ class ComboDisplay
     # When we drop below 1000 we need to clear the first character for the label
     if ((value<1000) && (self.big_prev_value>=1000))
       tasmota.cmd("DisplayText [f4s2x0y16p-4]0")
-      self.big_prev_label = ""
+      self.big_prev_value = ""
     end
     if (value != self.big_prev_value)
       if (value >= 1000)
