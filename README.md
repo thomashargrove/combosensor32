@@ -24,7 +24,7 @@ Screen - 20m/2
 PMS
 
 1. Cut 4.5in from tip of white connector
-2. Keep 2 inside, skip 1, keep 2, skip 3
+2. Start with black - Keep 2 inside, skip 1, keep 2, skip 3
 3. Power and Gnd are reverse colors
 
 Button
