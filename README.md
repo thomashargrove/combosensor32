@@ -35,6 +35,7 @@ Button
 2. snip leads one side
 3. 2.25in black jumper x2
 4. 2.5in green to big button
+5. 3in yellow to small button
 
 S8
 
