@@ -28,7 +28,7 @@ PMS - 5m/2
 3. Power and Gnd are reverse colors
 4. Dont strip power/gnd yet
 
-Button
+Button - 25m/2
 
 1. 6x6x7 and 6x6x8
 1. test fit first
