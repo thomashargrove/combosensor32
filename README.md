@@ -30,6 +30,7 @@ PMS - 5m/2
 
 Button
 
+1. 6x6x7 and 6x6x8
 1. test fit first
 2. snip leads one side
 3. 2.25in black jumper x2
