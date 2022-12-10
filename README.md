@@ -21,11 +21,12 @@ Screen - 20m/2
 2. Cut black, red, green, yellow to 3in
 3. SDA - Yellow, SCL - Green, Red - 3.3v, Black - Gnd
 
-PMS
+PMS - 5m/2
 
 1. Cut 4.5in from tip of white connector
 2. Start with black - Keep 2 inside, skip 1, keep 2, skip 3
 3. Power and Gnd are reverse colors
+4. Dont strip power/gnd yet
 
 Button
 
