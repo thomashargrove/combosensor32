@@ -15,7 +15,7 @@
 
 # Wiring / Assembly
 
-Screen
+Screen - 20m/2
 
 1. Test screen first.  Use ssd1306_128x64_i2c.ico and change address to 0x3C
 2. Cut black, red, green, yellow to 3in
