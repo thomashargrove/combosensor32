@@ -37,7 +37,7 @@ Button - 25m/2
 4. 2.5in green to big button
 5. 3in yellow to small button
 
-S8
+S8 - 15m/2
 
 1. 3.5in of red, black, green, blue, yellow
 2. From back.  Upper left red, down 1 black.  Upper right skip, down 1 blue, down 1 green, skip, yellow bottom
