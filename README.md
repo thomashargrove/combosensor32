@@ -42,7 +42,7 @@ S8 - 15m/2
 1. 3.5in of red, black, green, blue, yellow
 2. From back.  Upper left red, down 1 black.  Upper right skip, down 1 blue, down 1 green, skip, yellow bottom
 
-ESP32
+ESP32 - 50m/2
 
 1. Flash first
 1. Test Fit
