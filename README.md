@@ -44,6 +44,8 @@ S8
 
 ESP32
 
+1. Flash first
+1. Test Fit
 1. 2in red, black
 2. 
 
