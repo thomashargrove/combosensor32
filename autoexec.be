@@ -13,28 +13,6 @@
 import json
 import string
 
-#def map_real(x, x1, x2, y1, y2)
-#  return ((x - x1) * (y2 - y1) / (x2 - x1) + y1);
-#end
-#
-#def us_aqi(pm25)
-#  if (pm25 <= 12)
-#    return int(map_real(pm25, 0, 12, 0, 50))
-#  elif (pm25 <= 35.4)
-#    return int(map_real(pm25, 12.1, 35.4, 51, 100))
-#  elif (pm25 <= 55.4)
-#    return int(map_real(pm25, 35.5, 55.4, 101, 150))
-#  elif (pm25 <= 150.4)
-#    return int(map_real(pm25, 55.5, 150.4, 151, 200))
-#  elif (pm25 <= 250.4)
-#    return int(map_real(pm25, 150.5, 250.4, 201, 300))
-#  elif (pm25 <= 500.4)
-#    return int(map_real(pm25, 250.5, 500.4, 301, 500))
-#  else
-#    return 500
-#  end
-#end
-
 class ComboDisplay
   var co2, aqi, temperature, humidity
   var jsondata
@@ -105,6 +83,21 @@ class ComboDisplay
       self.last_row_values[position] = value
     end
   end
+  
+  def display_info(refresh)
+    if (refresh)
+      tasmota.cmd("DisplayText [z]")
+      ret = tasmota.cmd("hostname")
+      log(ret["Hostname"])
+    end
+  end
+
+  def display_off(refresh)
+    if (refresh)
+      tasmota.cmd("DisplayText [z]")
+      tasmota.cmd("DisplayText [f0s1x0y0].")
+    end
+  end
 
   def every_second()
     if (self.refresh)
@@ -137,6 +130,10 @@ class ComboDisplay
       self.display_row(1, "Aqi", self.aqi, self.refresh)
       self.display_row(2, "Temp", self.temperature, self.refresh)
       self.display_row(3, "%RH", self.humidity, self.refresh)
+    elif (self.mode == 3)
+      self.display_info(self.refresh)
+    elif (self.mode == 4)
+      self.display_off(self.refresh)
     end
     self.refresh = false
   end
@@ -144,7 +141,7 @@ class ComboDisplay
   def next_mode()
     log("Button Pressed")
     self.mode += 1
-    if (self.mode >= 3)
+    if (self.mode >= 5)
       self.mode = 0
     end
 
