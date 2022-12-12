@@ -87,8 +87,12 @@ class ComboDisplay
   def display_info(refresh)
     if (refresh)
       tasmota.cmd("DisplayText [z]")
-      ret = tasmota.cmd("hostname")
-      log(ret["Hostname"])
+      var hostname = tasmota.cmd("hostname")["Hostname"]
+      tasmota.cmd(string.format("DisplayText [f0s2x0y0]%s", hostname)
+      var ip = tasmota.wifi()["ip"]
+      tasmota.cmd(string.format("DisplayText [f0s2x0y16]%s", hostname)
+      var ip = tasmota.wifi()["ip"]
+      tasmota.cmd(string.format("DisplayText [f0s2x0y16]%s", hostname)
     end
   end
 
